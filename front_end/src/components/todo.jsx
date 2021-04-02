@@ -42,7 +42,7 @@ class Todo extends Component {
   };
 
   renderBadge() {
-    if (this.props.todo.completed) {
+    if (this.props.theme == "dark") {
       return (
         <Badge pill variant="secondary">
           <span>completed </span>

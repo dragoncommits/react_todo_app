@@ -3,3 +3,28 @@
   bottom: 16px;
   z-index: 0;
 }
+
+/* transitions */
+.todo-enter {
+  max-height: 0;
+  overflow: hidden;
+  transform: translateX(100px);
+  transition: all 250ms ease-in;
+}
+
+.todo-enter.todo-enter-active {
+  transform: translateX(0);
+  max-height: 100px;
+}
+
+.todo-exit {
+  transform: translateX(0);
+  max-height: 100px;
+  overflow: hidden;
+  transition: all 250ms ease-in;
+}
+
+.todo-exit.todo-exit-active {
+  transform: translateX(100px);
+  max-height: 0px;
+}
