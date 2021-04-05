@@ -24,14 +24,14 @@ class List extends Component {
 
   getStyles() {
     //styles of the containing ul element
-    return { height: "100%", overflowY: "scroll", overflowX: "hidden" };
+    return { overflowY: "scroll", overflowX: "hidden" };
   }
 
   render() {
     return (
       <ul
         ref={this.dragulaDecorator}
-        className="p-0 mb-2 hide-native-scrollbar"
+        className="p-0 hide-native-scrollbar"
         style={this.getStyles()}
       >
         <TransitionGroup component={null}>
