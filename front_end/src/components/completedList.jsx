@@ -106,6 +106,7 @@ class CompletedList extends Component {
                 moveTodo={this.props.moveTodo}
                 theme="dark"
                 maxHeight={500}
+                handleDeleteTask={this.props.handleDeleteTask}
               ></List>
             </Resizable>
           </div>
@@ -126,6 +127,7 @@ class CompletedList extends Component {
               handleToggleTaskCompletion={this.props.handleToggleTaskCompletion}
               handleSaveTask={this.props.handleSaveTask}
               moveTodo={this.props.moveTodo}
+              handleDeleteTask={this.props.handleDeleteTask}
             ></List>
           </Modal.Body>
           <Modal.Footer>

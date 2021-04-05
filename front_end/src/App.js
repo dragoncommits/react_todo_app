@@ -21,6 +21,7 @@ class App extends Component {
     this.handleRemoveCompletedTasks = this.handleRemoveCompletedTasks.bind(
       this
     );
+    this.handleDeleteTask = this.handleDeleteTask.bind(this)
   }
 
   handleToggleTaskCompletion(id) {
@@ -83,6 +84,20 @@ class App extends Component {
     }
   }
 
+  handleDeleteTask(id){
+    //removes task by id
+    var confirmed = window.confirm(
+      "Are you sure you want to permenently delete this task?"
+    );
+    if (confirmed) {
+      var tasks_clone = [...this.state.todos];
+      tasks_clone = tasks_clone.filter(function (value, index, arr) {
+        return value.id !== id;
+      });
+
+      this.setState({ todos: tasks_clone });
+    }
+  }
   handleRemoveCompletedTasks() {
     //removes all completed tasks from state after user comfirms to delete them
     var confirmed = window.confirm(
@@ -180,6 +195,7 @@ class App extends Component {
             tasks={uncompletedTasks}
             handleToggleTaskCompletion={this.handleToggleTaskCompletion}
             handleSaveTask={this.handleSaveTask}
+            handleDeleteTask = {this.handleDeleteTask}
             moveTodo={this.moveTodo}
             theme="light"
           ></List>
@@ -199,6 +215,7 @@ class App extends Component {
           handleToggleTaskCompletion={this.handleToggleTaskCompletion}
           handleRemoveCompletedTasks={this.handleRemoveCompletedTasks}
           tasks={this.getCompletedTasks()}
+          handleDeleteTask = {this.handleDeleteTask}
         ></CompletedList>
       </div>
     );

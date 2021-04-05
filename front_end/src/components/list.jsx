@@ -45,6 +45,7 @@ class List extends Component {
                 }
                 handleSaveTask={this.props.handleSaveTask}
                 theme={this.props.theme}
+                handleDeleteTask={this.props.handleDeleteTask}
               ></Todo>
             </CSSTransition>
           ))}

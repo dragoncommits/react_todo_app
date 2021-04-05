@@ -2,6 +2,8 @@
   right: 20px;
   bottom: 16px;
   z-index: 0;
+  opacity: 1;
+  transition: all 150ms ease-in;
 }
 
 /* transitions */
@@ -27,4 +29,19 @@
 .todo-exit.todo-exit-active {
   transform: translateX(100px);
   max-height: 0px;
+}
+
+.delete-button-position-right {
+  right: 20px;
+  bottom: 16px;
+  z-index: 2;
+  opacity: 0;
+  transition: all 150ms ease-in;
+}
+div:hover > .delete-button-position-right {
+  opacity: 1;
+}
+
+div:hover > .badge-position-right {
+  opacity: 0;
 }
