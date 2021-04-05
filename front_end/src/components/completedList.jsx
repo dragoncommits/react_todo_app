@@ -12,6 +12,7 @@ class CompletedList extends Component {
   }
 
   getCompletedText() {
+    //returns string of how many tasks completed
     var completedTasksLength = this.props.tasks.length;
     var taskCompleteText = "";
     if (completedTasksLength === 1) {

@@ -24,6 +24,13 @@ class App extends Component {
   }
 
   handleToggleTaskCompletion(id) {
+    /*
+      excepts task_id
+
+      handler for when a task is toggled(checkbox clicked)
+      toggles task completed
+      if completed sets completed time to current
+    */
     var tasks_clone = [...this.state.todos];
 
     for (var key in tasks_clone) {
@@ -38,6 +45,10 @@ class App extends Component {
   }
 
   handleSaveTask(id, value) {
+    /*
+      excepts task id and new value
+      handler for when a task is updated with new text
+    */
     var tasks_clone = [...this.state.todos];
 
     for (var key in tasks_clone) {
@@ -49,6 +60,9 @@ class App extends Component {
   }
 
   handleAddNewTask() {
+    /*
+     adds a new task to state.todos
+    */
     var tasks_clone = [...this.state.todos];
     var newId = tasks_clone.length + 1;
 
@@ -70,6 +84,7 @@ class App extends Component {
   }
 
   handleRemoveCompletedTasks() {
+    //removes all completed tasks from state after user comfirms to delete them
     var confirmed = window.confirm(
       "Are you sure you want to permenently delete all completed tasks? this action cannot be undone"
     );
@@ -84,8 +99,13 @@ class App extends Component {
   }
 
   moveTodo(element_id, sibling_id) {
+    //moves a todo element by its id before another sibling element in the same list 
+    //if sibling element is null moves element to the end
     var tasks_clone = [...this.state.todos];
     var todoTask = {};
+
+    //finds element and removes it from task clone
+    //sets it as the todoTask (to be used by the next block of code)
     for (let i in tasks_clone) {
       var task = tasks_clone[i];
 
@@ -97,6 +117,8 @@ class App extends Component {
         break;
       }
     }
+
+    //if putting todoTask not at the end
     if (sibling_id) {
       for (let i in tasks_clone) {
         if (tasks_clone[i].id == sibling_id) {
@@ -105,6 +127,7 @@ class App extends Component {
         }
       }
     } else {
+      //place todoTask at the end
       tasks_clone.push(todoTask);
     }
 
@@ -112,7 +135,8 @@ class App extends Component {
   }
 
   getCompletedTasks() {
-    console.log("this", this);
+    //returns a filtered list of all the completed tasks
+
     var tasks_clone = [...this.state.todos];
     var completedTasks = tasks_clone.filter(function (value, index, arr) {
       return value.completed === true;
@@ -121,6 +145,8 @@ class App extends Component {
   }
 
   getUncompletedTasks() {
+    //returns a filtered list of all uncompleted tasks
+
     var tasks_clone = [...this.state.todos];
     var uncompletedTasks = tasks_clone.filter(function (value, index, arr) {
       return value.completed !== true;
@@ -129,6 +155,8 @@ class App extends Component {
   }
 
   renderTasksLeftText() {
+    //returns string of how many tasks are left to complete
+
     var uncompletedTasks = this.getUncompletedTasks();
     var uncompletelength = uncompletedTasks.length;
     if (uncompletelength === 0) {
@@ -141,8 +169,8 @@ class App extends Component {
   }
 
   renderWhenTodos() {
+    // main render method when there are any todos
     var uncompletedTasks = this.getUncompletedTasks();
-
     return (
       <div>
         <div className="bg-white pb-4 rounded-bottom">
@@ -177,6 +205,7 @@ class App extends Component {
   }
 
   renderWhenNoTodos() {
+    // render method when there are no todos
     return (
       <div className="center-items">
         <div>

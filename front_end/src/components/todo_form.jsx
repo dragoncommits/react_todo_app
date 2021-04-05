@@ -16,6 +16,7 @@ class TodoForm extends Component {
   }
 
   handleSave(event) {
+    //when onBlur event if there are no errors calles this.props.handleSave
     if (event.target.value.trim().length === 0) {
       this.setState({ mode: "error" });
     } else {
@@ -25,6 +26,7 @@ class TodoForm extends Component {
   }
 
   handleCheckError(event) {
+    //every keypress checks for errors and add the appropriate classes
     if (event.target.value.trim().length === 0) {
       this.setState({ field_classes: "is-invalid" });
     } else {
@@ -32,7 +34,8 @@ class TodoForm extends Component {
     }
   }
   getViewClassNames() {
-    if (this.props.completed) {
+    //changes highlighted text to be dark or white depending on the props theme
+    if (this.props.theme === "dark") {
       return "bg-dark";
     }
     return "bg-white";

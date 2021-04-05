@@ -10,6 +10,7 @@ import "./todo.css";
 
 class Todo extends Component {
   renderCheckBox() {
+    //renders the checkbox to be a green check or red x depending on completed
     if (this.props.todo.completed) {
       return (
         <svg
@@ -42,6 +43,7 @@ class Todo extends Component {
   };
 
   renderBadge() {
+    //renders the time since ...
     if (this.props.theme == "dark") {
       return (
         <Badge pill variant="secondary">
@@ -87,6 +89,7 @@ class Todo extends Component {
               content={this.props.todo.content}
               completed={this.props.todo.completed}
               handleSave={this.handleSave}
+              theme={this.props.theme}
             ></TodoForm>
           </Col>
         </Row>

@@ -5,6 +5,8 @@ import DragulaStyles from "react-dragula/dist/dragula.min.css";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 class List extends Component {
   dragulaDecorator = (componentBackingInstance) => {
+    //method used by dragula to allow drag and drop functionality
+    //when Todo is dropped calles this.props.moveTodo
     if (componentBackingInstance) {
       let options = {};
       var drag = Dragula([componentBackingInstance], options);
@@ -21,8 +23,8 @@ class List extends Component {
   };
 
   getStyles() {
-    return { height:"100%",overflowY: "scroll", overflowX: "hidden" };
-
+    //styles of the containing ul element
+    return { height: "100%", overflowY: "scroll", overflowX: "hidden" };
   }
 
   render() {
