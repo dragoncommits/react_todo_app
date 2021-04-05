@@ -21,22 +21,15 @@ class List extends Component {
   };
 
   getStyles() {
-    if (this.props.maxHeight) {
-      return {
-        maxHeight: this.props.maxHeight,
-        overflowY: "auto",
-        overflowX: "hidden",
-      };
-    } else {
-      return { overflowY: "auto", overflowX: "hidden" };
-    }
+    return { height:"100%",overflowY: "scroll", overflowX: "hidden" };
+
   }
 
   render() {
     return (
       <ul
         ref={this.dragulaDecorator}
-        className="p-0 mb-2"
+        className="p-0 mb-2 hide-native-scrollbar"
         style={this.getStyles()}
       >
         <TransitionGroup component={null}>
