@@ -41,6 +41,11 @@ INSTALLED_APPS = [
 
     # my apps
     'tasks.apps.TasksConfig',
+    'accounts.apps.AccountsConfig',
+
+    # installed apps
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [

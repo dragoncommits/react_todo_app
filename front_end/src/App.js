@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { CSSTransition } from "react-transition-group";
 import List from "./components/list.jsx";
 import CompletedList from "./components/completedList";
+import Authentication from "./components/Authentication.jsx"
 
 class App extends Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class App extends Component {
     var newTaskContent = prompt("enter a task");
 
     var todoTask = {
-      updated: new Date().toLocaleString(),
+      created: new Date().toLocaleString(),
       content: newTaskContent,
       completed: false,
 
@@ -187,7 +188,7 @@ class App extends Component {
     // main render method when there are any todos
     var uncompletedTasks = this.getUncompletedTasks();
     return (
-      <div>
+      <div >
         <div className="bg-white pb-4 rounded-bottom">
           <h4 className="text-center mt-3">Tasks</h4>
           <p className="text-center text-muted">{this.renderTasksLeftText()}</p>
@@ -223,6 +224,7 @@ class App extends Component {
 
   renderWhenNoTodos() {
     // render method when there are no todos
+    
     return (
       <div className="center-items">
         <div>
@@ -242,8 +244,10 @@ class App extends Component {
   }
 
   render() {
+    
     return (
       <div>
+        <Authentication></Authentication>
         <CSSTransition
           in={this.state.todos.length}
           timeout={600}
@@ -262,6 +266,7 @@ class App extends Component {
         >
           {this.renderWhenNoTodos()}
         </CSSTransition>
+        
       </div>
     );
   }

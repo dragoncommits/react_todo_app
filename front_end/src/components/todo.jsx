@@ -56,7 +56,7 @@ class Todo extends Component {
     return (
       <Badge pill variant="light">
         <span>added </span>
-        <TimeAgo datetime={this.props.todo.updated} />
+        <TimeAgo datetime={this.props.todo.created} />
       </Badge>
     );
   }
