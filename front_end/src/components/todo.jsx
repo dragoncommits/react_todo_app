@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import TodoForm from "./todo_form.jsx";
 //https://github.com/hustcc/timeago-react
 import "./todo.css";
+import axios from "axios";
 
 class Todo extends Component {
   renderCheckBox() {
@@ -40,21 +41,34 @@ class Todo extends Component {
   }
 
   handleSave = (event) => {
-    this.props.handleSaveTask(this.props.todo.id, event.target.value);
+    var id = this.props.todo.id;
+    var value = event.target.value;
+    var updateTaskUrl = "/api/tasks/update/" + id + "/";
+    axios.put(updateTaskUrl, {
+      content: value,
+    });
+    this.props.handleSaveTask(id, value);
   };
 
   renderBadge() {
+    var variant = "";
+    if (this.props.todo.theme == "dark") {
+      variant = "secondary";
+    } else {
+      variant = "light";
+    }
+
     //renders the time since ...
-    if (this.props.theme == "dark") {
+    if (this.props.todo.completed) {
       return (
-        <Badge pill variant="secondary">
+        <Badge pill variant={variant}>
           <span>completed </span>
           <TimeAgo datetime={this.props.todo.completedTime} />
         </Badge>
       );
     }
     return (
-      <Badge pill variant="light">
+      <Badge pill variant={variant}>
         <span>added </span>
         <TimeAgo datetime={this.props.todo.created} />
       </Badge>

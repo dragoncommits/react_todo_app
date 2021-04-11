@@ -5,6 +5,7 @@ import { CSSTransition } from "react-transition-group";
 import List from "./components/list.jsx";
 import CompletedList from "./components/completedList";
 import Authentication from "./components/Authentication.jsx"
+import axios from "axios";
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +26,14 @@ class App extends Component {
     this.handleDeleteTask = this.handleDeleteTask.bind(this)
   }
 
-  handleToggleTaskCompletion(id) {
+  async componentDidMount() {
+    var getTasksUrl = '/api/tasks/list/'
+    const tasks = await axios.get(getTasksUrl);
+
+    this.setState({todos:tasks.data})
+  }
+
+  async handleToggleTaskCompletion(id) {
     /*
       excepts task_id
 
@@ -34,14 +42,25 @@ class App extends Component {
       if completed sets completed time to current
     */
     var tasks_clone = [...this.state.todos];
+    var updateTaskUrl = "/api/tasks/update/" + id + "/";
 
     for (var key in tasks_clone) {
       if (tasks_clone[key].id === id) {
         tasks_clone[key].completed = !tasks_clone[key].completed;
         if (tasks_clone[key].completed) {
-          tasks_clone[key].completedTime = new Date().toLocaleString();
+          var completedTime=new Date().toJSON()
+          tasks_clone[key].completedTime =completedTime;
+          var task = await axios.patch(updateTaskUrl, {
+            completedTime: completedTime,
+            completed:true
+          });
+        }else{
+          var task = await axios.patch(updateTaskUrl, {
+            completed:false
+          });
         }
       }
+      console.log(task)
     }
     this.setState({ todos: tasks_clone });
   }
@@ -61,21 +80,29 @@ class App extends Component {
     this.setState({ todos: tasks_clone });
   }
 
-  handleAddNewTask() {
+  async handleAddNewTask() {
     /*
      adds a new task to state.todos
     */
-    var tasks_clone = [...this.state.todos];
-    var newId = tasks_clone.length + 1;
 
+    // get task content
     var newTaskContent = prompt("enter a task");
 
-    var todoTask = {
-      created: new Date().toLocaleString(),
-      content: newTaskContent,
-      completed: false,
+    //create task
+    var createTaskUrl = '/api/tasks/create/'
+    const task = await axios.post(createTaskUrl, {
+      content:newTaskContent
+    });
 
-      id: newId,
+    var tasks_clone = [...this.state.todos];
+
+
+    //add task to state
+    var todoTask = {
+      created: task.data.created,
+      content: task.data.content,
+      completed: task.data.completed,
+      id: task.data.id,
     };
 
     if (newTaskContent) {
@@ -85,12 +112,17 @@ class App extends Component {
     }
   }
 
-  handleDeleteTask(id){
+  async handleDeleteTask(id){
     //removes task by id
     var confirmed = window.confirm(
       "Are you sure you want to permenently delete this task?"
     );
     if (confirmed) {
+
+      var deleteTaskUrl = '/api/tasks/delete/'+id+'/';
+      const task = await axios.delete(deleteTaskUrl);
+
+
       var tasks_clone = [...this.state.todos];
       tasks_clone = tasks_clone.filter(function (value, index, arr) {
         return value.id !== id;
@@ -99,6 +131,7 @@ class App extends Component {
       this.setState({ todos: tasks_clone });
     }
   }
+
   handleRemoveCompletedTasks() {
     //removes all completed tasks from state after user comfirms to delete them
     var confirmed = window.confirm(
@@ -114,7 +147,7 @@ class App extends Component {
     }
   }
 
-  moveTodo(element_id, sibling_id) {
+  async moveTodo(element_id, sibling_id) {
     //moves a todo element by its id before another sibling element in the same list 
     //if sibling element is null moves element to the end
     var tasks_clone = [...this.state.todos];
@@ -146,6 +179,11 @@ class App extends Component {
       //place todoTask at the end
       tasks_clone.push(todoTask);
     }
+
+    //move todo in backend
+    const reorderUrl = '/api/tasks/reorder/'
+    const reorderedtasks = await axios.post(reorderUrl,tasks_clone);
+
 
     this.setState({ todos: tasks_clone });
   }
