@@ -5,5 +5,6 @@ urlpatterns = [
     path('list/', List.as_view()),
     path('update/<int:pk>/', Update.as_view()),
     path('delete/<int:pk>/', Delete.as_view()),
-    path('reorder/', Reorder.as_view())
+    path('reorder/', Reorder.as_view()),
+    path('delete/completed/', DeleteCompleted.as_view())
 ]

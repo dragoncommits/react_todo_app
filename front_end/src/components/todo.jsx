@@ -52,7 +52,7 @@ class Todo extends Component {
 
   renderBadge() {
     var variant = "";
-    if (this.props.todo.theme == "dark") {
+    if (this.props.theme == "dark") {
       variant = "secondary";
     } else {
       variant = "light";

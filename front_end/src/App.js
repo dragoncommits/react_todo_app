@@ -132,7 +132,7 @@ class App extends Component {
     }
   }
 
-  handleRemoveCompletedTasks() {
+  async handleRemoveCompletedTasks() {
     //removes all completed tasks from state after user comfirms to delete them
     var confirmed = window.confirm(
       "Are you sure you want to permenently delete all completed tasks? this action cannot be undone"
@@ -142,6 +142,9 @@ class App extends Component {
       tasks_clone = tasks_clone.filter(function (value, index, arr) {
         return value.completed !== true;
       });
+
+      const deleteCompletedUrl = '/api/tasks/delete/completed/'
+      const deleteCompletedTasks = await axios.delete(deleteCompletedUrl);
 
       this.setState({ todos: tasks_clone });
     }

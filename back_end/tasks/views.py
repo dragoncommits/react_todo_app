@@ -46,6 +46,16 @@ class Delete(generics.DestroyAPIView):
         return Task.objects.get(user=self.request.user, pk=self.kwargs['pk'])
 
 
+class DeleteCompleted(APIView):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        tasks = Task.objects.filter(user=request.user, completed=True)
+        tasks.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
 class Reorder(APIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
