@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Todo from "./todo.jsx";
+import Task from "./Task.jsx";
 import Dragula from "react-dragula";
 import DragulaStyles from "react-dragula/dist/dragula.min.css";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 class List extends Component {
   dragulaDecorator = (componentBackingInstance) => {
     //method used by dragula to allow drag and drop functionality
-    //when Todo is dropped calles this.props.moveTodo
+    //when Task is dropped calles this.props.moveTask
     if (componentBackingInstance) {
       let options = {};
       var drag = Dragula([componentBackingInstance], options);
@@ -17,7 +17,7 @@ class List extends Component {
           var sibling_id = null;
         }
         var element_id = el.dataset.id;
-        this.props.moveTodo(element_id, sibling_id);
+        this.props.moveTask(element_id, sibling_id);
       });
     }
   };
@@ -35,18 +35,18 @@ class List extends Component {
         style={this.getStyles()}
       >
         <TransitionGroup component={null}>
-          {this.props.tasks.map((todo) => (
-            <CSSTransition key={todo.id} timeout={250} classNames="todo">
-              <Todo
-                key={todo.id}
-                todo={todo}
+          {this.props.tasks.map((task) => (
+            <CSSTransition key={task.id} timeout={250} classNames="task">
+              <Task
+                key={task.id}
+                task={task}
                 handleToggleTaskCompletion={
                   this.props.handleToggleTaskCompletion
                 }
                 handleSaveTask={this.props.handleSaveTask}
                 theme={this.props.theme}
                 handleDeleteTask={this.props.handleDeleteTask}
-              ></Todo>
+              ></Task>
             </CSSTransition>
           ))}
         </TransitionGroup>

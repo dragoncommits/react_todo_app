@@ -5,15 +5,15 @@ import TimeAgo from "timeago-react"; // var TimeAgo = require('timeago-react');
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import TodoForm from "./todo_form.jsx";
+import TaskForm from "./TaskForm.jsx";
 //https://github.com/hustcc/timeago-react
-import "./todo.css";
+import "./Task.css";
 import axios from "axios";
 
-class Todo extends Component {
+class Task extends Component {
   renderCheckBox() {
     //renders the checkbox to be a green check or red x depending on completed
-    if (this.props.todo.completed) {
+    if (this.props.task.completed) {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ class Todo extends Component {
   }
 
   handleSave = (event) => {
-    var id = this.props.todo.id;
+    var id = this.props.task.id;
     var value = event.target.value;
     var updateTaskUrl = "/api/tasks/update/" + id + "/";
     axios.put(updateTaskUrl, {
@@ -59,39 +59,39 @@ class Todo extends Component {
     }
 
     //renders the time since ...
-    if (this.props.todo.completed) {
+    if (this.props.task.completed) {
       return (
         <Badge pill variant={variant}>
           <span>completed </span>
-          <TimeAgo datetime={this.props.todo.completedTime} />
+          <TimeAgo datetime={this.props.task.completedTime} />
         </Badge>
       );
     }
     return (
       <Badge pill variant={variant}>
         <span>added </span>
-        <TimeAgo datetime={this.props.todo.created} />
+        <TimeAgo datetime={this.props.task.created} />
       </Badge>
     );
   }
 
   render() {
     var cont_classes = "py-2 border-bottom position-relative ";
-    if (this.props.todo.completed) {
+    if (this.props.task.completed) {
       cont_classes += "text-success";
     }
 
-    if (!this.props.todo.completed) {
+    if (!this.props.task.completed) {
       cont_classes += "text-danger";
     }
 
     return (
-      <Container fluid className={cont_classes} data-id={this.props.todo.id}>
+      <Container fluid className={cont_classes} data-id={this.props.task.id}>
         <Button
           variant="link"
           className="btn-sm text-secondary position-absolute delete-button-position-right"
           onClick={() => {
-            this.props.handleDeleteTask(this.props.todo.id);
+            this.props.handleDeleteTask(this.props.task.id);
           }}
         >
           <svg
@@ -117,18 +117,18 @@ class Todo extends Component {
           <Col
             xs={1}
             onClick={() =>
-              this.props.handleToggleTaskCompletion(this.props.todo.id)
+              this.props.handleToggleTaskCompletion(this.props.task.id)
             }
           >
             {this.renderCheckBox()}
           </Col>
           <Col>
-            <TodoForm
-              content={this.props.todo.content}
-              completed={this.props.todo.completed}
+            <TaskForm
+              content={this.props.task.content}
+              completed={this.props.task.completed}
               handleSave={this.handleSave}
               theme={this.props.theme}
-            ></TodoForm>
+            ></TaskForm>
           </Col>
         </Row>
       </Container>
@@ -136,4 +136,4 @@ class Todo extends Component {
   }
 }
 
-export default Todo;
+export default Task;

@@ -3,7 +3,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Row from "react-bootstrap/Row";
 import { Resizable } from "re-resizable";
 import Col from "react-bootstrap/Col";
-import List from "./list.jsx";
+import List from "./List.jsx";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 class CompletedList extends Component {
@@ -103,7 +103,7 @@ class CompletedList extends Component {
                   this.props.handleToggleTaskCompletion
                 }
                 handleSaveTask={this.props.handleSaveTask}
-                moveTodo={this.props.moveTodo}
+                moveTask={this.props.moveTask}
                 theme="dark"
                 maxHeight={500}
                 handleDeleteTask={this.props.handleDeleteTask}
@@ -126,7 +126,7 @@ class CompletedList extends Component {
               tasks={this.props.tasks}
               handleToggleTaskCompletion={this.props.handleToggleTaskCompletion}
               handleSaveTask={this.props.handleSaveTask}
-              moveTodo={this.props.moveTodo}
+              moveTask={this.props.moveTask}
               handleDeleteTask={this.props.handleDeleteTask}
             ></List>
           </Modal.Body>

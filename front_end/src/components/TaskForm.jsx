@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 
-class TodoForm extends Component {
+class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = { mode: "view", field_classes: null };
@@ -54,7 +54,7 @@ class TodoForm extends Component {
         <Form.Control
           onBlur={this.handleSave}
           type="text"
-          placeholder="Add Todo"
+          placeholder="Add Task"
           onChange={this.handleCheckError}
           className={this.state.field_classes}
           defaultValue={this.props.content}
@@ -64,4 +64,4 @@ class TodoForm extends Component {
   }
 }
 
-export default TodoForm;
+export default TaskForm;

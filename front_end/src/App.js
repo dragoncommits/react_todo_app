@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { CSSTransition } from "react-transition-group";
-import List from "./components/list.jsx";
-import CompletedList from "./components/completedList";
+import List from "./components/List.jsx";
+import CompletedList from "./components/CompletedList";
 import Authentication from "./components/Authentication.jsx"
 import axios from "axios";
 
@@ -12,12 +12,12 @@ class App extends Component {
     super(props);
 
     this.state = {
-      todos: [],
+      tasks: [],
     };
     this.handleToggleTaskCompletion = this.handleToggleTaskCompletion.bind(
       this
     );
-    this.moveTodo = this.moveTodo.bind(this);
+    this.moveTask = this.moveTask.bind(this);
     this.handleSaveTask = this.handleSaveTask.bind(this);
     this.handleAddNewTask = this.handleAddNewTask.bind(this);
     this.handleRemoveCompletedTasks = this.handleRemoveCompletedTasks.bind(
@@ -30,7 +30,7 @@ class App extends Component {
     var getTasksUrl = '/api/tasks/list/'
     const tasks = await axios.get(getTasksUrl);
 
-    this.setState({todos:tasks.data})
+    this.setState({tasks:tasks.data})
   }
 
   async handleToggleTaskCompletion(id) {
@@ -41,7 +41,7 @@ class App extends Component {
       toggles task completed
       if completed sets completed time to current
     */
-    var tasks_clone = [...this.state.todos];
+    var tasks_clone = [...this.state.tasks];
     var updateTaskUrl = "/api/tasks/update/" + id + "/";
 
     for (var key in tasks_clone) {
@@ -62,7 +62,7 @@ class App extends Component {
       }
       console.log(task)
     }
-    this.setState({ todos: tasks_clone });
+    this.setState({ tasks: tasks_clone });
   }
 
   handleSaveTask(id, value) {
@@ -70,19 +70,19 @@ class App extends Component {
       excepts task id and new value
       handler for when a task is updated with new text
     */
-    var tasks_clone = [...this.state.todos];
+    var tasks_clone = [...this.state.tasks];
 
     for (var key in tasks_clone) {
       if (tasks_clone[key].id === id) {
         tasks_clone[key].content = value;
       }
     }
-    this.setState({ todos: tasks_clone });
+    this.setState({ tasks: tasks_clone });
   }
 
   async handleAddNewTask() {
     /*
-     adds a new task to state.todos
+     adds a new task to state.tasks
     */
 
     // get task content
@@ -94,11 +94,11 @@ class App extends Component {
       content:newTaskContent
     });
 
-    var tasks_clone = [...this.state.todos];
+    var tasks_clone = [...this.state.tasks];
 
 
     //add task to state
-    var todoTask = {
+    var newTask = {
       created: task.data.created,
       content: task.data.content,
       completed: task.data.completed,
@@ -106,9 +106,9 @@ class App extends Component {
     };
 
     if (newTaskContent) {
-      tasks_clone.push(todoTask);
+      tasks_clone.push(newTask);
 
-      this.setState({ todos: tasks_clone });
+      this.setState({ tasks: tasks_clone });
     }
   }
 
@@ -123,12 +123,12 @@ class App extends Component {
       const task = await axios.delete(deleteTaskUrl);
 
 
-      var tasks_clone = [...this.state.todos];
+      var tasks_clone = [...this.state.tasks];
       tasks_clone = tasks_clone.filter(function (value, index, arr) {
         return value.id !== id;
       });
 
-      this.setState({ todos: tasks_clone });
+      this.setState({ tasks: tasks_clone });
     }
   }
 
@@ -138,7 +138,7 @@ class App extends Component {
       "Are you sure you want to permenently delete all completed tasks? this action cannot be undone"
     );
     if (confirmed) {
-      var tasks_clone = [...this.state.todos];
+      var tasks_clone = [...this.state.tasks];
       tasks_clone = tasks_clone.filter(function (value, index, arr) {
         return value.completed !== true;
       });
@@ -146,55 +146,55 @@ class App extends Component {
       const deleteCompletedUrl = '/api/tasks/delete/completed/'
       const deleteCompletedTasks = await axios.delete(deleteCompletedUrl);
 
-      this.setState({ todos: tasks_clone });
+      this.setState({ tasks: tasks_clone });
     }
   }
 
-  async moveTodo(element_id, sibling_id) {
-    //moves a todo element by its id before another sibling element in the same list 
+  async moveTask(element_id, sibling_id) {
+    //moves a task element by its id before another sibling element in the same list 
     //if sibling element is null moves element to the end
-    var tasks_clone = [...this.state.todos];
-    var todoTask = {};
+    var tasks_clone = [...this.state.tasks];
+    var newTask = {};
 
     //finds element and removes it from task clone
-    //sets it as the todoTask (to be used by the next block of code)
+    //sets it as the newTask (to be used by the next block of code)
     for (let i in tasks_clone) {
       var task = tasks_clone[i];
 
       if (task.id == element_id) {
-        todoTask = tasks_clone[i];
+        newTask = tasks_clone[i];
         tasks_clone = tasks_clone.filter(function (value, index, arr) {
-          return value !== todoTask;
+          return value !== newTask;
         });
         break;
       }
     }
 
-    //if putting todoTask not at the end
+    //if putting newTask not at the end
     if (sibling_id) {
       for (let i in tasks_clone) {
         if (tasks_clone[i].id == sibling_id) {
-          tasks_clone.splice(i, 0, todoTask);
+          tasks_clone.splice(i, 0, newTask);
           break;
         }
       }
     } else {
-      //place todoTask at the end
-      tasks_clone.push(todoTask);
+      //place newTask at the end
+      tasks_clone.push(newTask);
     }
 
-    //move todo in backend
+    //move task in backend
     const reorderUrl = '/api/tasks/reorder/'
     const reorderedtasks = await axios.post(reorderUrl,tasks_clone);
 
 
-    this.setState({ todos: tasks_clone });
+    this.setState({ tasks: tasks_clone });
   }
 
   getCompletedTasks() {
     //returns a filtered list of all the completed tasks
 
-    var tasks_clone = [...this.state.todos];
+    var tasks_clone = [...this.state.tasks];
     var completedTasks = tasks_clone.filter(function (value, index, arr) {
       return value.completed === true;
     });
@@ -204,7 +204,7 @@ class App extends Component {
   getUncompletedTasks() {
     //returns a filtered list of all uncompleted tasks
 
-    var tasks_clone = [...this.state.todos];
+    var tasks_clone = [...this.state.tasks];
     var uncompletedTasks = tasks_clone.filter(function (value, index, arr) {
       return value.completed !== true;
     });
@@ -225,8 +225,8 @@ class App extends Component {
     }
   }
 
-  renderWhenTodos() {
-    // main render method when there are any todos
+  renderWhenTasks() {
+    // main render method when there are any tasks
     var uncompletedTasks = this.getUncompletedTasks();
     return (
       <div >
@@ -238,7 +238,7 @@ class App extends Component {
             handleToggleTaskCompletion={this.handleToggleTaskCompletion}
             handleSaveTask={this.handleSaveTask}
             handleDeleteTask = {this.handleDeleteTask}
-            moveTodo={this.moveTodo}
+            moveTask={this.moveTask}
             theme="light"
           ></List>
 
@@ -252,7 +252,7 @@ class App extends Component {
           </Button>
         </div>
         <CompletedList
-          moveTodo={this.moveTodo}
+          moveTask={this.moveTask}
           handleSaveTask={this.handleSaveTask}
           handleToggleTaskCompletion={this.handleToggleTaskCompletion}
           handleRemoveCompletedTasks={this.handleRemoveCompletedTasks}
@@ -263,8 +263,8 @@ class App extends Component {
     );
   }
 
-  renderWhenNoTodos() {
-    // render method when there are no todos
+  renderWhenNoTasks() {
+    // render method when there are no tasks
     
     return (
       <div className="center-items">
@@ -290,22 +290,22 @@ class App extends Component {
       <div>
         <Authentication></Authentication>
         <CSSTransition
-          in={this.state.todos.length}
+          in={this.state.tasks.length}
           timeout={600}
           classNames="fade"
           unmountOnExit
           appear
         >
-          {this.renderWhenTodos()}
+          {this.renderWhenTasks()}
         </CSSTransition>
         <CSSTransition
-          in={!this.state.todos.length}
+          in={!this.state.tasks.length}
           timeout={600}
           classNames="fade"
           unmountOnExit
           appear
         >
-          {this.renderWhenNoTodos()}
+          {this.renderWhenNoTasks()}
         </CSSTransition>
         
       </div>
