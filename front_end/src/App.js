@@ -24,14 +24,19 @@ class App extends Component {
       this
     );
     this.handleDeleteTask = this.handleDeleteTask.bind(this)
+    this.getTasks = this.getTasks.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.getTasks()
+  }
+
+  async getTasks(){
     var getTasksUrl = '/api/tasks/list/'
     const tasks = await axios.get(getTasksUrl);
-
     this.setState({tasks:tasks.data})
   }
+  
 
   async handleToggleTaskCompletion(id) {
     /*
@@ -88,28 +93,29 @@ class App extends Component {
     // get task content
     var newTaskContent = prompt("enter a task");
 
-    //create task
-    var createTaskUrl = '/api/tasks/create/'
-    const task = await axios.post(createTaskUrl, {
-      content:newTaskContent
-    });
+    //if there is a new task
+    if (newTaskContent){
+      //create task
+      var createTaskUrl = '/api/tasks/create/'
+      const task = await axios.post(createTaskUrl, {
+        content:newTaskContent
+      });
+      var tasks_clone = [...this.state.tasks];
 
-    var tasks_clone = [...this.state.tasks];
 
+      //add task to state
+      var newTask = {
+        created: task.data.created,
+        content: task.data.content,
+        completed: task.data.completed,
+        id: task.data.id,
+      };
 
-    //add task to state
-    var newTask = {
-      created: task.data.created,
-      content: task.data.content,
-      completed: task.data.completed,
-      id: task.data.id,
-    };
-
-    if (newTaskContent) {
       tasks_clone.push(newTask);
 
       this.setState({ tasks: tasks_clone });
-    }
+    };
+    
   }
 
   async handleDeleteTask(id){
@@ -288,7 +294,7 @@ class App extends Component {
     
     return (
       <div>
-        <Authentication></Authentication>
+        <Authentication getTasks={this.getTasks}></Authentication>
         <CSSTransition
           in={this.state.tasks.length}
           timeout={600}

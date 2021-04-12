@@ -8,7 +8,7 @@ class Login extends Component {
     super(props);
     this.state = {};
 
-    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleUserNameChange = this.handleUserNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
@@ -28,7 +28,7 @@ class Login extends Component {
     event.preventDefault();
   }
 
-  handleEmailChange(event) {
+  handleUserNameChange(event) {
     this.setState({ email: event.target.value });
   }
 
@@ -40,11 +40,10 @@ class Login extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Group controlId="login">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Enter email"
-            onChange={this.handleEmailChange}
+            placeholder="Enter Username"
+            onChange={this.handleUserNameChange}
           />
         </Form.Group>
 

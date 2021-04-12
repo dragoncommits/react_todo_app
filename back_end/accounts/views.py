@@ -7,10 +7,25 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from rest_framework.decorators import api_view
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
 
+@api_view(('POST',))
+def UserCreate(request):
+    data = {'username': request.data.get('username'),
+            'password1': request.data.get('password'),
+            'password2': request.data.get('password'),
+            }
+    form = UserCreationForm(data)
+    if form.is_valid():
+        return Response(status=HTTP_201_CREATED)
+    else:
+        return Response(data=form.errors.as_json())
+
+
+"""
 @api_view(('POST',))
 def UserCreate(request):
     username = request.data.get('username')
@@ -27,6 +42,7 @@ def UserCreate(request):
         return Response(status=status.HTTP_201_CREATED)
 
     return Response(status=status.HTTP_409_CONFLICT)
+"""
 
 
 @api_view(('POST',))

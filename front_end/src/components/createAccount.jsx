@@ -7,7 +7,7 @@ class CreateAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleUserNameChange = this.handleUserNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(
@@ -15,7 +15,7 @@ class CreateAccount extends Component {
     );
   }
 
-  handleEmailChange(event) {
+  handleUserNameChange(event) {
     this.setState({ email: event.target.value });
   }
 
@@ -67,15 +67,11 @@ class CreateAccount extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Group>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Enter email"
-            onChange={this.handleEmailChange}
+            placeholder="Enter Username"
+            onChange={this.handleUserNameChange}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group>

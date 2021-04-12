@@ -25,6 +25,7 @@ class Authentication extends Component {
 
     if (logged_in.data.logged_in) {
       this.setState({ showing: false, username: logged_in.data.username });
+      this.props.getTasks();
     } else {
       this.setState({ showing: true, username: null });
     }

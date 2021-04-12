@@ -7,26 +7,26 @@
 }
 
 /* transitions */
-.todo-enter {
+.task-enter {
   max-height: 0;
   overflow: hidden;
   transform: translateX(100px);
   transition: all 250ms ease-in;
 }
 
-.todo-enter.todo-enter-active {
+.task-enter.task-enter-active {
   transform: translateX(0);
   max-height: 100px;
 }
 
-.todo-exit {
+.task-exit {
   transform: translateX(0);
   max-height: 100px;
   overflow: hidden;
   transition: all 250ms ease-in;
 }
 
-.todo-exit.todo-exit-active {
+.task-exit.task-exit-active {
   transform: translateX(100px);
   max-height: 0px;
 }
