@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Collapse from "react-bootstrap/Collapse";
-import CreateAccount from "./createAccount";
+import CreateAccount from "./CreateAccount";
 import Login from "./Login";
 import axios from "axios";
 

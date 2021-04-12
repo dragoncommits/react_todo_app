@@ -130,5 +130,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     FRONT_END_DIR / "build/static",
+    FRONT_END_DIR / "build",
 
 ]

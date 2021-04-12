@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models import F
 # Create your models here.
 
 
@@ -15,5 +15,5 @@ class Task(models.Model):
     def __str__(self):
         return self.content
 
-    class meta:
-        ordering = ['user', 'order']
+    class Meta:
+        ordering = ['user', F('order').asc(nulls_last=True)]
