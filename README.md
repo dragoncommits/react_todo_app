@@ -50,4 +50,4 @@ This was made for me to learn [React](https://reactjs.org/)
 
     python manage.py runserver
 
-go to http://127.0.0.1:8000/ in your favorite browser
+### 13. go to http://127.0.0.1:8000/ in your favorite browser
