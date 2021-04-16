@@ -22,9 +22,12 @@ class Authentication extends Component {
 
   async handleClose() {
     const logged_in = await axios.get("/api/accounts/loggedIn/");
-
     if (logged_in.data.logged_in) {
-      this.setState({ showing: false, username: logged_in.data.username });
+      this.setState({
+        showing: false,
+        username: logged_in.data.username,
+        form: "login",
+      });
       this.props.getTasks();
     } else {
       this.setState({ showing: true, username: null });
