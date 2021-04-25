@@ -7,7 +7,7 @@ This was made for me to learn [React](https://reactjs.org/)
 
 ### 1.clone this repository
 
-    git clone https://github.com/rabbit463/react_todo_app.git
+    git clone https://github.com/dragoncommits/react_todo_app.git
 
 ### 2. install [npm](https://www.npmjs.com/get-npm) (if not already installed)
 
